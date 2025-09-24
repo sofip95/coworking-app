@@ -1,7 +1,7 @@
 package org.coworking.presentation.controller;
 
 import java.util.List;
-import org.coworking.domain.service.ReporteService;
+import org.coworking.domain.service.impl.ReporteServiceImpl;
 import org.coworking.domain.dto.ReporteDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -25,10 +25,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @Tag(name = "Reportes", description = "API para la gestión de reportes")
 public class ReporteController {
 
-    private final ReporteService reporteService;
+    private final ReporteServiceImpl reporteService;
 
     @Autowired
-    public ReporteController(ReporteService reporteService) {
+    public ReporteController(ReporteServiceImpl reporteService) {
         this.reporteService = reporteService;
     }
 

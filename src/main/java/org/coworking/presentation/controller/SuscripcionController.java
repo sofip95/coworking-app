@@ -1,7 +1,7 @@
 package org.coworking.presentation.controller;
 
 import java.util.List;
-import org.coworking.domain.service.SuscripcionService;
+import org.coworking.domain.service.impl.SuscripcionServiceImpl;
 import org.coworking.domain.dto.SuscripcionDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -25,10 +25,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @Tag(name = "Suscripciones", description = "API para la gestión de suscripciones")
 public class SuscripcionController {
 
-    private final SuscripcionService suscripcionService;
+    private final SuscripcionServiceImpl suscripcionService;
 
     @Autowired
-    public SuscripcionController(SuscripcionService suscripcionService) {
+    public SuscripcionController(SuscripcionServiceImpl suscripcionService) {
         this.suscripcionService = suscripcionService;
     }
 

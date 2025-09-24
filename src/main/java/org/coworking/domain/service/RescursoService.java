@@ -1,4 +1,4 @@
 package org.coworking.domain.service;
 
-public interface UsuarioService {
+public interface RescursoService {
 }

@@ -1,7 +1,7 @@
 package org.coworking.presentation.controller;
 
 import java.util.List;
-import org.coworking.domain.service.PagoService;
+import org.coworking.domain.service.impl.PagoServiceImpl;
 import org.coworking.domain.dto.PagoDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -25,10 +25,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @Tag(name = "Pagos", description = "API para la gestión de pagos")
 public class PagoController {
 
-    private final PagoService pagoService;
+    private final PagoServiceImpl pagoService;
 
     @Autowired
-    public PagoController(PagoService pagoService) {
+    public PagoController(PagoServiceImpl pagoService) {
         this.pagoService = pagoService;
     }
 

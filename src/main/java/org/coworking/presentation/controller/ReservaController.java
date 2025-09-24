@@ -1,7 +1,7 @@
 package org.coworking.presentation.controller;
 
 import java.util.List;
-import org.coworking.domain.service.ReservaService;
+import org.coworking.domain.service.impl.ReservaServiceImpl;
 import org.coworking.domain.dto.ReservaDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -25,10 +25,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @Tag(name = "Reservas", description = "API para la gestión de reservas")
 public class ReservaController {
 
-    private final ReservaService reservaService;
+    private final ReservaServiceImpl reservaService;
 
     @Autowired
-    public ReservaController(ReservaService reservaService) {
+    public ReservaController(ReservaServiceImpl reservaService) {
         this.reservaService = reservaService;
     }
 

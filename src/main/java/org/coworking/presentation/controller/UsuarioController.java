@@ -2,7 +2,7 @@ package org.coworking.presentation.controller;
 
 import java.util.List;
 
-import org.coworking.domain.service.UsuarioService;
+import org.coworking.domain.service.impl.UsuarioServiceImpl;
 import org.coworking.domain.dto.UsuarioDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -26,10 +26,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @Tag(name = "Usuarios", description = "API para la gestión de usuarios")
 public class UsuarioController {
 
-    private final UsuarioService usuarioService;
+    private final UsuarioServiceImpl usuarioService;
 
     @Autowired
-    public UsuarioController(UsuarioService usuarioService) {
+    public UsuarioController(UsuarioServiceImpl usuarioService) {
         this.usuarioService = usuarioService;
     }
 

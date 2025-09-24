@@ -1,7 +1,7 @@
 package org.coworking.presentation.controller;
 
 import java.util.List;
-import org.coworking.domain.service.NotificacionService;
+import org.coworking.domain.service.impl.NotificacionServiceImpl;
 import org.coworking.domain.dto.NotificacionDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -25,10 +25,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @Tag(name = "Notificaciones", description = "API para la gestión de notificaciones")
 public class NotificacionController {
 
-    private final NotificacionService notificacionService;
+    private final NotificacionServiceImpl notificacionService;
 
     @Autowired
-    public NotificacionController(NotificacionService notificacionService) {
+    public NotificacionController(NotificacionServiceImpl notificacionService) {
         this.notificacionService = notificacionService;
     }
 

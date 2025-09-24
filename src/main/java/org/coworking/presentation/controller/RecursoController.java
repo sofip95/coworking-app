@@ -1,7 +1,7 @@
 package org.coworking.presentation.controller;
 
 import java.util.List;
-import org.coworking.domain.service.RecursoService;
+import org.coworking.domain.service.impl.RecursoServiceImpl;
 import org.coworking.domain.dto.RecursoDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -25,10 +25,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @Tag(name = "Recursos", description = "API para la gestión de recursos")
 public class RecursoController {
 
-    private final RecursoService recursoService;
+    private final RecursoServiceImpl recursoService;
 
     @Autowired
-    public RecursoController(RecursoService recursoService) {
+    public RecursoController(RecursoServiceImpl recursoService) {
         this.recursoService = recursoService;
     }
 
