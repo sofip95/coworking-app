@@ -1,70 +1,44 @@
-package org.coworking.domain.dto;;
+package org.coworking.domain.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
+
+/**
+ * DTO para representar los datos de un reporte.
+ *
+ * Se usa para comunicación entre el backend y el cliente (API REST).
+ */
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Schema(description = "Información del reporte generado")
 public class ReporteDTO {
-    private String idReporte;
-    private String tipo;
+
+    @Schema(description = "ID único del reporte", example = "1", accessMode = Schema.AccessMode.READ_ONLY)
+    private Long id;
+
+    @Schema(description = "ID del usuario asociado al reporte", example = "2", required = true)
+    private Long usuarioId;
+
+    @Schema(description = "Título del reporte", example = "Reporte de Ingresos Mensuales", required = true, maxLength = 255)
+    private String titulo;
+
+    @Schema(description = "Descripción del reporte", example = "Detalle de ingresos por reservas y pagos realizados.")
     private String descripcion;
-    private String fechaGeneracion;
+
+    @Schema(description = "Tipo de reporte", example = "INGRESOS", allowableValues = {"USO_RECURSOS", "INGRESOS", "OCUPACION", "USUARIOS"}, required = true)
+    private String tipo;
+
+    @Schema(description = "Cantidad de registros analizados en el reporte", example = "45", required = true)
+    private Integer cantidadRegistros;
+
+    @Schema(description = "Contenido del reporte en formato JSON", example = "{\"totalIngresos\":520000}", required = true)
     private String contenido;
-    private String idUsuario;
 
-    public ReporteDTO() {
-    }
-
-    public ReporteDTO(String idReporte, String tipo, String descripcion, String fechaGeneracion, String contenido, String idUsuario) {
-        this.idReporte = idReporte;
-        this.tipo = tipo;
-        this.descripcion = descripcion;
-        this.fechaGeneracion = fechaGeneracion;
-        this.contenido = contenido;
-        this.idUsuario = idUsuario;
-    }
-
-    public String getIdReporte() {
-        return idReporte;
-    }
-
-    public void setIdReporte(String idReporte) {
-        this.idReporte = idReporte;
-    }
-
-    public String getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
-    }
-
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
-
-    public String getFechaGeneracion() {
-        return fechaGeneracion;
-    }
-
-    public void setFechaGeneracion(String fechaGeneracion) {
-        this.fechaGeneracion = fechaGeneracion;
-    }
-
-    public String getContenido() {
-        return contenido;
-    }
-
-    public void setContenido(String contenido) {
-        this.contenido = contenido;
-    }
-
-    public String getIdUsuario() {
-        return idUsuario;
-    }
-
-    public void setIdUsuario(String idUsuario) {
-        this.idUsuario = idUsuario;
-    }
+    @Schema(description = "Fecha y hora de creación del reporte", example = "2025-01-15T10:30:00", accessMode = Schema.AccessMode.READ_ONLY)
+    private LocalDateTime createdAt;
 }
