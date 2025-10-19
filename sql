@@ -42,18 +42,16 @@ CREATE TABLE recurso (
 -- ==========================================================
 CREATE TABLE suscripcion (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    usuario_id BIGINT NOT NULL,
-    tipo ENUM('BASICO', 'PREMIUM') NOT NULL,
-    estado ENUM('ACTIVA', 'VENCIDA', 'CANCELADA') NOT NULL,
-    precio_mensual DECIMAL(10,2) NOT NULL,
-    fecha_inicio DATETIME NOT NULL,
-    fecha_fin DATETIME,
+    nombre VARCHAR(100) NOT NULL,
+    descripcion TEXT,
+    tipo ENUM('BASICA', 'PREMIUM') NOT NULL,
+    duracion ENUM('MENSUAL', 'TRIMESTRAL', 'SEMESTRAL', 'ANUAL') NOT NULL,
+    precio DECIMAL(10,2) NOT NULL,
+    cantidad_reservas_permitidas INT,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (usuario_id) REFERENCES usuario(id)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
+
 
 -- ==========================================================
 -- TABLA: RECURSO vs RESERVA
@@ -127,9 +125,7 @@ CREATE TABLE reporte (
     tipo ENUM('USO_RECURSOS', 'INGRESOS', 'OCUPACION', 'USUARIOS') NOT NULL,
     cantidad_registros INT DEFAULT 0,
     contenido TEXT NOT NULL,
-    fecha_generacion DATETIME NOT NULL,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (usuario_id) REFERENCES usuario(id)
         ON DELETE CASCADE
         ON UPDATE CASCADE
@@ -181,12 +177,14 @@ VALUES
 -- ==========================================================
 -- SUSCRIPCIONES
 -- ==========================================================
-INSERT INTO suscripcion (usuario_id, tipo, estado, precio_mensual, fecha_inicio, fecha_fin)
-VALUES
-(1, 'PREMIUM', 'ACTIVA', 120000.00, '2025-01-01 00:00:00', '2025-12-31 23:59:59'),
-(2, 'BASICO', 'ACTIVA', 60000.00, '2025-02-01 00:00:00', '2026-01-31 23:59:59'),
-(3, 'BASICO', 'VENCIDA', 60000.00, '2024-01-01 00:00:00', '2024-12-31 23:59:59');
-
+INSERT INTO suscripcion (
+    nombre, descripcion, tipo, duracion, precio, cantidad_reservas_permitidas, created_at, updated_at
+) VALUES
+('Suscripción Básica Mensual', 'Acceso limitado a las funciones principales.', 'BASICA', 'MENSUAL', 9.99, 5, NOW(), NOW()),
+('Suscripción Premium Mensual', 'Acceso completo a todas las funcionalidades.', 'PREMIUM', 'MENSUAL', 19.99, 15, NOW(), NOW()),
+('Suscripción Básica Trimestral', 'Acceso básico con un pequeño descuento trimestral.', 'BASICA', 'TRIMESTRAL', 27.99, 20, NOW(), NOW()),
+('Suscripción Premium Semestral', 'Acceso total con beneficios adicionales y descuento semestral.', 'PREMIUM', 'SEMESTRAL', 99.99, 50, NOW(), NOW()),
+('Suscripción Premium Anual', 'Acceso total durante todo el año con beneficios exclusivos.', 'PREMIUM', 'ANUAL', 179.99, 120, NOW(), NOW());
 -- ==========================================================
 -- RESERVAS
 -- ==========================================================
@@ -216,9 +214,15 @@ VALUES
 -- ==========================================================
 -- REPORTES
 -- ==========================================================
-INSERT INTO reporte (usuario_id, titulo, descripcion, tipo, cantidad_registros, contenido, fecha_generacion)
-VALUES
-(2, 'Reporte de Uso de Recursos - Octubre 2025', 'Estadísticas de ocupación de recursos durante octubre.', 'USO_RECURSOS', 120, '{"ocupacionPromedio":85}', '2025-10-31 23:59:59'),
-(1, 'Reporte de Ingresos Mensuales', 'Detalle de ingresos por reservas y pagos realizados.', 'INGRESOS', 45, '{"totalIngresos":520000}', '2025-10-31 23:59:59');
+INSERT INTO reporte (usuario_id, titulo, descripcion, tipo, cantidad_registros, contenido) VALUES
+(1, 'Uso de recursos alto', 'Se detectó un uso anormalmente alto de CPU durante el procesamiento de tareas simultáneas.', 'USO_RECURSOS', 125, 'CPU al 95% por más de 10 minutos en el servidor principal.'),
+(2, 'Incremento en ingresos', 'El sistema registró un aumento del 20% en los ingresos semanales.', 'INGRESOS', 48, 'Reporte de ingresos generado a partir de las ventas registradas en el módulo financiero.'),
+(3, 'Tasa de ocupación', 'El coworking alcanzó una tasa de ocupación del 90% en las salas compartidas.', 'OCUPACION', 30, 'Ocupación general alta debido a la campaña de nuevos usuarios.'),
+(4, 'Usuarios activos', 'Se reporta un incremento del 15% en la cantidad de usuarios activos durante el último mes.', 'USUARIOS', 150, 'Total de usuarios activos: 1.230 de 1.450 registrados.'),
+(1, 'Memoria en uso', 'Se identificó un consumo excesivo de memoria en el módulo de reportes.', 'USO_RECURSOS', 220, 'El proceso reportes.py ocupa más del 80% de la memoria RAM asignada.'),
+(2, 'Ingresos mensuales estables', 'Los ingresos se mantuvieron constantes respecto al mes anterior.', 'INGRESOS', 60, 'No se registraron variaciones significativas en los ingresos totales.'),
+(3, 'Ocupación por áreas', 'El área norte presenta un 100% de ocupación durante horarios pico.', 'OCUPACION', 18, 'Los espacios más demandados son las salas de reuniones y escritorios compartidos.'),
+(4, 'Usuarios nuevos', 'Se registraron 45 nuevos usuarios durante la última semana.', 'USUARIOS', 45, 'Usuarios nuevos agregados desde el formulario web y registro móvil.'),
+(1, 'Consumo de recursos por usuario', 'Análisis del consumo promedio de CPU y RAM por usuario activo.', 'USO_RECURSOS', 98, 'Promedio CPU: 45%, RAM: 68%. Los usuarios premium consumen más recursos.'),
+(2, 'Comparativa de ingresos trimestrales', 'Comparación entre los ingresos del trimestre actual y el anterior.', 'INGRESOS', 72, 'El trimestre actual presenta un incremento del 12% frente al anterior.');
 
-SELECT * FROM usuario;
