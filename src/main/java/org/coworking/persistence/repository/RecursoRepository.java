@@ -69,18 +69,19 @@ public interface RecursoRepository extends JpaRepository<RecursoEntity, Long> {
      * Usado en: GET /api/v1/recursos con varios parámetros opcionales.
      */
     @Query("""
-        SELECT r FROM RecursoEntity r
-        WHERE (:estado IS NULL OR r.estado = :estado)
-          AND (:tipo IS NULL OR r.tipo = :tipo)
-          AND (:ubicacion IS NULL OR LOWER(r.ubicacion) LIKE LOWER(CONCAT('%', :ubicacion, '%')))
-          AND (:capacidadMinima IS NULL OR r.capacidad >= :capacidadMinima)
-          AND (:precioMaximo IS NULL OR r.precioPorHora <= :precioMaximo)
-    """)
+    SELECT r FROM RecursoEntity r
+    WHERE (:estado IS NULL OR r.estado = :estado)
+      AND (:tipo IS NULL OR r.tipo = :tipo)
+      AND (:ubicacion IS NULL OR LOWER(r.ubicacion) LIKE LOWER(CONCAT('%', :ubicacion, '%')))
+      AND (:capacidadMinima IS NULL OR r.capacidad >= :capacidadMinima)
+      AND (:precioMaximo IS NULL OR r.precioPorHora <= :precioMaximo)
+""")
     List<RecursoEntity> findByFilters(
-            String estado,
+            RecursoEntity.EstadoRecurso estado,
             String tipo,
             String ubicacion,
             Integer capacidadMinima,
             BigDecimal precioMaximo
     );
+
 }
