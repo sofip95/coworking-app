@@ -1,7 +1,11 @@
 plugins {
     id 'java'
-    id 'org.springframework.boot' version '3.2.0'
-    id 'io.spring.dependency-management' version '1.1.4'
+    id 'org.springframework.boot' version '3.5.5'
+    id 'io.spring.dependency-management' version '1.1.7'
+    id 'jacoco'                                 // Genera cobertura de pruebas
+    id "org.sonarqube" version "4.4.1.3373"     // Plugin SonarQube
+
+    id "io.qameta.allure" version "2.11.2"      // Plugin Allure Reports
 }
 
 group = 'org.coworking'
@@ -22,17 +26,19 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
 
     // Database
     runtimeOnly 'org.mariadb.jdbc:mariadb-java-client:3.3.2'
     runtimeOnly 'com.h2database:h2'
 
-    // Lombok
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.mockito:mockito-core:5.11.0'
+    testImplementation 'org.mockito:mockito-junit-jupiter:5.11.0'
 
     // MapStruct
     implementation 'org.mapstruct:mapstruct:1.5.5.Final'
@@ -43,11 +49,67 @@ dependencies {
 
     // Development tools
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
-
-    // Test
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
 tasks.named('test') {
     useJUnitPlatform()
+    finalizedBy jacocoTestReport, allureReport  // tras los test se generan los relportes con JaCoCo + Allure
+}
+
+jacoco {
+    toolVersion = "0.8.10"
+}
+
+jacocoTestReport {
+    dependsOn test
+    reports {
+        xml.required = true   // necesario para SonarQube
+        html.required = true  // reporte navegable local
+    }
+    finalizedBy jacocoTestCoverageVerification
+}
+
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            limit {
+                minimum = 0.30 // ejemplo: exige al menos 80% cobertura
+            }
+        }
+    }
+}
+
+allure {
+    version = "2.24.0"     // versión de Allure Report
+    autoconfigure = true   // configura automáticamente JUnit 5 listener
+    aspectjweaver = true   // necesario para anotaciones @Step, @Attachment
+
+}
+
+// Configuración SonarQube
+sonarqube {
+    properties {
+        //property "sonar.projectKey", "tienda-online"
+        //property "sonar.projectName", "Tienda Online SonarQube"
+        property "sonar.projectKey", "hestia-project"
+        property "sonar.projectName", "Hestia SonarQube"
+        property "sonar.host.url", "http://localhost:9000"
+        //property "sonar.login", "TOKEN_GENERADO_EN_SONAR" // genera en SonarQube
+        //property "sonar.login", "squ_fbfdd4eb4bd948e070948f9e2d071b4e2e58d5f1"
+        property "sonar.login", "squ_8bd0d1dd5be40d3f44438b17e24fc5c5cd64a253"
+        property "sonar.sources", "src/main/java"
+        property "sonar.tests", "src/test/java"
+        property "sonar.java.binaries", "build/classes/java/main"
+        property "sonar.coverage.jacoco.xmlReportPaths", "build/reports/jacoco/test/jacocoTestReport.xml"
+
+        property "sonar.gradle.skipCompile", "true"
+    }
+}
+
+// Tarea extra para abrir el reporte de Allure en navegador automáticamente
+tasks.register('openAllureReport') {
+    dependsOn allureReport
+    doLast {
+        java.awt.Desktop.getDesktop().browse(new File("$buildDir/reports/allure-report/index.html").toURI())
+    }
 }
