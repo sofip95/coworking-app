@@ -1,14 +1,16 @@
 package org.coworking.persistence.dao;
 
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.Optional;
+
 import org.coworking.domain.dto.SuscripcionDTO;
 import org.coworking.persistence.entity.SuscripcionEntity;
 import org.coworking.persistence.mapper.SuscripcionMapper;
 import org.coworking.persistence.repository.SuscripcionRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-import java.util.Optional;
+import lombok.RequiredArgsConstructor;
 
 /**
  * DAO para operaciones de base de datos con suscripciones
@@ -103,6 +105,18 @@ public class SuscripcionDAO {
      */
     public List<SuscripcionDTO> findSuscripcionesByDuracion(String duracion) {
         List<SuscripcionEntity> entities = suscripcionRepository.findByDuracion(duracion);
+        return suscripcionMapper.toDTOList(entities);
+    }
+
+    /**
+     * Buscar con filtros combinados dinámicos.
+     */
+    public List<SuscripcionDTO> findByFilters(String tipo, String duracion,
+                                              BigDecimal precioMinimo, BigDecimal precioMaximo,
+                                              Integer cantidadReservasPermitidasMinima) {
+        List<SuscripcionEntity> entities = suscripcionRepository.findByFilters(
+                tipo, duracion, precioMinimo, precioMaximo, cantidadReservasPermitidasMinima
+        );
         return suscripcionMapper.toDTOList(entities);
     }
 
