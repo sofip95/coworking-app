@@ -40,6 +40,7 @@ public class RecursoEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
+    @Builder.Default
     private EstadoRecurso estado = EstadoRecurso.DISPONIBLE;
 
     @Column(name = "created_at", updatable = false)
