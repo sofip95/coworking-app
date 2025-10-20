@@ -6,6 +6,7 @@ import org.coworking.persistence.entity.RecursoEntity;
 import org.coworking.persistence.mapper.RecursoMapper;
 import org.coworking.persistence.repository.RecursoRepository;
 import org.springframework.stereotype.Repository;
+import org.coworking.persistence.entity.RecursoEntity.EstadoRecurso;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -103,8 +104,20 @@ public class RecursoDAO {
      */
     public List<RecursoDTO> findByFilters(String estado, String tipo, String ubicacion,
                                           Integer capacidadMinima, BigDecimal precioMaximo) {
+
+        EstadoRecurso estadoEnum = null;
+        if (estado != null && !estado.trim().isEmpty()) {
+            try {
+                estadoEnum = EstadoRecurso.valueOf(estado.toUpperCase());
+            } catch (IllegalArgumentException e) {
+                throw new IllegalArgumentException(
+                        "El estado '" + estado + "' no es válido. Valores permitidos: DISPONIBLE, OCUPADO, MANTENIMIENTO"
+                );
+            }
+        }
+
         List<RecursoEntity> entities = recursoRepository.findByFilters(
-                estado, tipo, ubicacion, capacidadMinima, precioMaximo
+                estadoEnum, tipo, ubicacion, capacidadMinima, precioMaximo
         );
         return recursoMapper.toDTOList(entities);
     }
