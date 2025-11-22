@@ -1,0 +1,93 @@
+/* Layout principal */
+.layout {
+  display: flex;
+  height: 100vh;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 260px;
+  background: linear-gradient(180deg, #e6f4ff 0%, #d7ecff 100%);
+  color: #083b66;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  box-shadow: 4px 0 18px rgba(3, 37, 65, 0.06);
+}
+
+.brand {
+  text-align: left;
+}
+
+.logo {
+  font-size: 22px;
+  font-weight: 800;
+  margin: 0;
+  color: #073b66;
+}
+
+.tagline {
+  font-size: 12px;
+  margin-top: 6px;
+  color: #22628f;
+}
+
+/* Menú */
+.menu {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.menu a {
+  color: #083b66;
+  text-decoration: none;
+  font-size: 15px;
+  padding: 10px 8px;
+  border-radius: 8px;
+  transition: .15s;
+  display: block;
+}
+
+.menu a:hover,
+.menu a.active {
+  background: rgba(34,98,143,0.08);
+  color: #06324b;
+}
+
+/* Contenido general */
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Topbar */
+.topbar {
+  background: linear-gradient(90deg, #ffffff 0%, #f7fbff 100%);
+  padding: 12px 20px;
+  box-shadow: 0 2px 6px rgba(3,37,65,0.04);
+  font-size: 15px;
+  font-weight: 500;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.username {
+  color: #06324b;
+  font-weight: 700;
+}
+
+/* Contenido */
+.content {
+  padding: 28px;
+  background: linear-gradient(180deg,#f7fbff 0%, #ffffff 40%);
+}
+
+.logout {
+  margin-top: 30px;
+  color: #d04545;
+  cursor: pointer;
+}

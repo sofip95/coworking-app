@@ -1,0 +1,20 @@
+<div class="page">
+  <h2>Generar Reporte</h2>
+  <p>Genera un resumen básico del sistema (recursos y reservas).</p>
+
+  <div class="actions">
+    <button class="btn" (click)="generar()" [disabled]="loading">Generar</button>
+  </div>
+
+  <div *ngIf="stats.totalRecursos !== undefined">
+    <h3>Resumen</h3>
+    <p>Total recursos: {{ stats.totalRecursos }}</p>
+    <p>Total reservas: {{ stats.totalReservas }}</p>
+    <div *ngIf="stats.porEstado">
+      <h4>Reservas por estado</h4>
+      <ul>
+        <li *ngFor="let k of (stats.porEstado | keyvalue)">{{k.key}}: {{k.value}}</li>
+      </ul>
+    </div>
+  </div>
+</div>

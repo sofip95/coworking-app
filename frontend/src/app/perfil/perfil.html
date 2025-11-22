@@ -1,0 +1,24 @@
+<div class="profile-card">
+	<h2>Mi Perfil</h2>
+
+	<form (ngSubmit)="save()" class="profile-form">
+		<label for="nombre">Nombre</label>
+		<input id="nombre" name="nombre" [(ngModel)]="nombre" />
+
+		<label for="email">Email (no editable)</label>
+		<input id="email" name="email" [(ngModel)]="email" disabled />
+
+		<label for="telefono">Teléfono</label>
+		<input id="telefono" name="telefono" [(ngModel)]="telefono" />
+
+		<label for="rol">Rol</label>
+		<input id="rol" name="rol" [(ngModel)]="rol" />
+
+		<div class="actions">
+			<button type="submit" [disabled]="isLoading">Guardar</button>
+		</div>
+
+		<div class="msg success" *ngIf="successMsg">{{ successMsg }}</div>
+		<div class="msg error" *ngIf="errorMsg">{{ errorMsg }}</div>
+	</form>
+</div>
