@@ -1,0 +1,43 @@
+<div class="layout">
+  
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="brand">
+      <h2 class="logo">Coworking</h2>
+      <p class="tagline">Espacios que inspiran</p>
+    </div>
+
+    <nav class="menu">
+      <!-- Solo visible para ADMIN -->
+      <a *ngIf="isAdmin" routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
+      <a routerLink="/catalogo" routerLinkActive="active">Catálogo</a>
+      <a routerLink="/mis-reservas" routerLinkActive="active">Mis Reservas</a>
+      <a routerLink="/perfil" routerLinkActive="active">Perfil</a>
+      
+      <!-- Solo visible para ADMIN -->
+      <a *ngIf="isAdmin" routerLink="/reportes" routerLinkActive="active">Reportes</a>
+      <a *ngIf="isAdmin" routerLink="/recurso" routerLinkActive="active" style="color: #f9d342;">
+        Registrar Recurso
+      </a>
+      <a *ngIf="!isAdmin" routerLink="/suscripciones" routerLinkActive="active">Suscripciones</a>
+
+      <!-- Logout -->
+      <a (click)="logout()" class="logout">
+        Cerrar sesión
+      </a>
+    </nav>
+  </aside>
+
+  <!-- Contenido principal -->
+  <div class="main">
+    <header class="topbar">
+      <span class="username">Hola, {{ username }}</span>
+    </header>
+
+    <div class="content">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+
+</div>
+

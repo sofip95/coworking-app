@@ -1,0 +1,153 @@
+<div *ngIf="isLoading" class="loading">Cargando datos...</div>
+
+<div *ngIf="!isLoading">
+  <div class="debug-user">Usuario actual: <code>{{ authService.getCurrentUser() | json }}</code></div>
+  <ng-container *ngIf="isAdmin(); else userView">
+    <div class="admin-badge">Vista ADMIN</div>
+    <h2 class="title">Dashboard Administrativo</h2>
+
+    <div class="cards">
+      <div class="admin-actions" *ngIf="isAdmin()">
+        <button class="btn primary" (click)="toggleCreateForm()">Crear recurso</button>
+        <button class="btn secondary" (click)="toggleCreateSusForm()">Crear suscripción</button>
+      </div>
+
+      <div class="create-form" *ngIf="showCreateForm">
+        <div *ngIf="createSuccessMessage" class="msg success">{{ createSuccessMessage }}</div>
+        <div *ngIf="createErrorMessage" class="msg error">{{ createErrorMessage }}</div>
+        <h4>Nuevo Recurso</h4>
+        <form (ngSubmit)="submitCreateRecurso()">
+          <div class="form-row">
+            <label>Nombre</label>
+            <input [(ngModel)]="newRecurso.nombre" name="nombre" required />
+          </div>
+          <div class="form-row">
+            <label>Descripción</label>
+            <input [(ngModel)]="newRecurso.descripcion" name="descripcion" />
+          </div>
+          <div class="form-row">
+            <label>Tipo</label>
+            <select [(ngModel)]="newRecurso.tipo" name="tipo">
+              <option value="">-- Selecciona tipo --</option>
+              <option value="SALA">Sala</option>
+              <option value="OFICINA">Oficina</option>
+              <option value="ESCRITORIO">Escritorio</option>
+              <option value="EVENTO">Evento</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <label>Ubicación</label>
+            <input [(ngModel)]="newRecurso.ubicacion" name="ubicacion" />
+          </div>
+          <div class="form-row">
+            <label>Capacidad</label>
+            <input type="number" [(ngModel)]="newRecurso.capacidad" name="capacidad" />
+          </div>
+          <div class="form-row">
+            <label>Precio/Hora</label>
+            <input type="number" step="0.01" [(ngModel)]="newRecurso.precioPorHora" name="precioPorHora" />
+          </div>
+          <div class="form-actions">
+            <button class="btn" type="button" (click)="toggleCreateForm()">Cancelar</button>
+            <button class="btn primary" type="submit">Guardar</button>
+          </div>
+        </form>
+      </div>
+      <div class="create-form" *ngIf="showCreateSusForm">
+        <div *ngIf="createSusSuccessMessage" class="msg success">{{ createSusSuccessMessage }}</div>
+        <div *ngIf="createSusErrorMessage" class="msg error">{{ createSusErrorMessage }}</div>
+        <h4>Nueva Suscripción</h4>
+        <form (ngSubmit)="submitCreateSuscripcion()">
+          <div class="form-row">
+            <label>Nombre</label>
+            <input [(ngModel)]="newSuscripcion.nombre" name="sus_nombre" required />
+          </div>
+          <div class="form-row">
+            <label>Tipo</label>
+            <input [(ngModel)]="newSuscripcion.tipo" name="sus_tipo" />
+          </div>
+          <div class="form-row">
+            <label>Duración</label>
+            <input [(ngModel)]="newSuscripcion.duracion" name="sus_duracion" />
+          </div>
+          <div class="form-row">
+            <label>Precio</label>
+            <input type="number" step="0.01" [(ngModel)]="newSuscripcion.precio" name="sus_precio" />
+          </div>
+          <div class="form-actions">
+            <button class="btn" type="button" (click)="toggleCreateSusForm()">Cancelar</button>
+            <button class="btn primary" type="submit">Guardar Suscripción</button>
+          </div>
+        </form>
+      </div>
+      <div class="card">
+        <h3>Total Reservas</h3>
+        <p class="number">{{ totalReservas }}</p>
+        <p class="subtitle">Confirmadas: {{ reservasConfirmadas }} | Canceladas: {{ reservasCanceladas }}</p>
+      </div>
+
+      <div class="card">
+        <h3>Usuarios Registrados</h3>
+        <p class="number">{{ totalUsuarios }}</p>
+      </div>
+
+      <div class="card">
+        <h3>Recursos Disponibles</h3>
+        <p class="number">{{ recursosDisponibles }}</p>
+        <p class="subtitle">Total: {{ totalRecursos }}</p>
+      </div>
+
+      <div class="card">
+        <h3>Ingresos del Mes</h3>
+        <p class="number">${{ ingresosMes.toLocaleString('es-ES') }}</p>
+      </div>
+    </div>
+
+    <h3 class="section-title">Reservas Recientes</h3>
+
+    <div *ngIf="reservasRecientes.length === 0" class="empty-card">No hay reservas registradas</div>
+
+    <table class="table" *ngIf="reservasRecientes.length > 0">
+      <thead>
+        <tr>
+          <th>Cliente</th>
+          <th>Fecha Inicio</th>
+          <th>Fecha Fin</th>
+          <th>Recurso</th>
+          <th>Estado</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let reserva of reservasRecientes">
+          <td>{{ getNombreUsuario(reserva.usuario) }}</td>
+          <td>{{ formatearFecha(reserva.fechaInicio) }}</td>
+          <td>{{ formatearFecha(reserva.fechaFin) }}</td>
+          <td>{{ getNombreRecurso(reserva.recurso) }}</td>
+          <td>
+            <span class="badge" [ngClass]="getEstadoBadgeClass(reserva.estado)">{{ getEstadoTexto(reserva.estado) }}</span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </ng-container>
+
+  <ng-template #userView>
+    <h2 class="title">Bienvenido</h2>
+    <div class="user-welcome">
+      <div class="subs">
+        <h3>Tus Suscripciones</h3>
+        <div *ngIf="mySuscripciones.length === 0">No tienes suscripciones activas</div>
+        <ul>
+          <li *ngFor="let s of mySuscripciones">Suscripción ID: {{ s.suscripcionId }} — {{ s.estado }}</li>
+        </ul>
+      </div>
+
+      <div class="available-resources">
+        <h3>Espacios Disponibles</h3>
+        <p>Accede al catálogo para ver y reservar espacios.</p>
+        <a routerLink="/catalogo" class="btn primary">Ver Catálogo</a>
+      </div>
+    </div>
+  </ng-template>
+</div>
+

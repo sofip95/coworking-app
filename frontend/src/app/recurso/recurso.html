@@ -1,0 +1,34 @@
+<div class="page">
+  <h2>Registrar Recurso</h2>
+  <form (ngSubmit)="submit()">
+    <div *ngIf="successMessage" class="msg success">{{ successMessage }}</div>
+    <div *ngIf="errorMessage" class="msg error">{{ errorMessage }}</div>
+    <label>Nombre</label>
+    <input [(ngModel)]="newRecurso.nombre" name="nombre" required />
+
+    <label>Descripción</label>
+    <textarea [(ngModel)]="newRecurso.descripcion" name="descripcion"></textarea>
+
+    <label>Tipo</label>
+    <select [(ngModel)]="newRecurso.tipo" name="tipo">
+      <option value="">-- Selecciona tipo --</option>
+      <option value="SALA">Sala</option>
+      <option value="OFICINA">Oficina</option>
+      <option value="ESCRITORIO">Escritorio</option>
+      <option value="EVENTO">Evento</option>
+    </select>
+
+    <label>Ubicación</label>
+    <input [(ngModel)]="newRecurso.ubicacion" name="ubicacion" />
+
+    <label>Capacidad</label>
+    <input type="number" [(ngModel)]="newRecurso.capacidad" name="capacidad" />
+
+    <label>Precio / Hora</label>
+    <input type="number" step="0.01" [(ngModel)]="newRecurso.precioPorHora" name="precioPorHora" />
+
+    <div class="actions">
+      <button class="btn" type="submit" [disabled]="isLoading">Guardar</button>
+    </div>
+  </form>
+</div>

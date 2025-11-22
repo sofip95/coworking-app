@@ -1,0 +1,45 @@
+/* You can add global styles to this file, and also import other style files */
+
+/* Light Blue Color Palette */
+:root {
+  --primary-color: #87CEEB; /* Sky Blue */
+  --secondary-color: #ADD8E6; /* Light Blue */
+  --accent-color: #4682B4; /* Steel Blue */
+  --background-color: #F0F8FF; /* Alice Blue */
+  --text-color: #2F4F4F; /* Dark Slate Gray */
+  --light-text: #FFFFFF;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+button {
+  background-color: var(--primary-color);
+  color: var(--light-text);
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: var(--accent-color);
+}
+
+input, textarea, select {
+  border: 1px solid var(--secondary-color);
+  padding: 8px;
+  border-radius: 4px;
+}
+
+.card {
+  background-color: var(--light-text);
+  border: 1px solid var(--secondary-color);
+  border-radius: 8px;
+  padding: 16px;
+  margin: 16px;
+}

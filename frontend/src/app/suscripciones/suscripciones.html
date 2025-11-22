@@ -1,0 +1,19 @@
+<div class="page">
+  <h2>Suscripciones</h2>
+  <div class="available">
+    <h3>Planes disponibles</h3>
+    <ul>
+      <li *ngFor="let s of disponibles">
+        <strong>{{ s.nombre }}</strong> — {{ s.tipo }} — {{ s.precio | currency:'USD' }}
+        <button (click)="subscribeTo(s.id)">Suscribirme</button>
+      </li>
+    </ul>
+  </div>
+
+  <div class="my-subs">
+    <h3>Mis suscripciones</h3>
+    <ul>
+      <li *ngFor="let m of mySubs">ID: {{ m.suscripcionId }} — Estado: {{ m.estado }}</li>
+    </ul>
+  </div>
+</div>

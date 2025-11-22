@@ -1,0 +1,29 @@
+<div class="catalogo">
+	<h2 class="catalog-title">Catálogo de espacios disponibles</h2>
+
+	<div *ngIf="isLoading" class="loading">Cargando recursos...</div>
+	<div *ngIf="error" class="error">{{ error }}</div>
+
+	<div *ngIf="!isLoading && recursos.length === 0" class="empty">No hay recursos disponibles.</div>
+
+	<div class="cards-grid">
+		<div *ngFor="let r of recursos" class="space-card">
+			<div class="card-media" [style.backgroundImage]="'url(/assets/placeholder-space.jpg)'">
+			</div>
+			<div class="card-body">
+				<h3 class="name">{{ r.nombre }}</h3>
+				<p class="desc">{{ r.descripcion }}</p>
+				<div class="meta">
+					<span class="tag">{{ r.tipo || 'Espacio' }}</span>
+					<span class="location">{{ r.ubicacion || 'Ubicación' }}</span>
+					<span class="cap">Capacidad: {{ r.capacidad || '—' }}</span>
+				</div>
+				<div class="price">{{ r.precioHora ? (r.precioHora | currency:'USD') : 'Gratis' }}</div>
+				<div class="actions">
+					<button class="btn primary">Reservar</button>
+					<button class="btn ghost">Detalles</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
